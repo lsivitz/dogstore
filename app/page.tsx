@@ -32,6 +32,19 @@ const products = [
     colors: ["Navy", "Black", "Gray"],
     sizes: ["S", "M", "L", "XL", "XXL", "XXXL"],
   },
+  {
+    id: 3,
+    name: "Custom Fenn T-Shirt ⭐",
+    price: 39.99,
+    originalPrice: 49.99,
+    image: "/placeholder.svg?height=400&width=400",
+    rating: 5.0,
+    reviews: 1,
+    colors: ["Golden", "Royal Blue", "Forest Green"],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    isSpecial: true,
+    specialBadge: "CUSTOM FOR FENN ✨"
+  },
 ]
 
 export default function HomePage() {
@@ -113,7 +126,11 @@ export default function HomePage() {
             {products.map((product) => (
               <Card
                 key={product.id}
-                className="overflow-hidden hover:shadow-xl transition-shadow duration-300 border-2 border-orange-200"
+                className={`overflow-hidden hover:shadow-xl transition-shadow duration-300 ${
+                  product.isSpecial 
+                    ? "border-4 border-yellow-400 bg-gradient-to-br from-yellow-50 to-orange-50 ring-2 ring-yellow-300 shadow-lg" 
+                    : "border-2 border-orange-200"
+                }`}
               >
                 <div className="relative">
                   <Image
@@ -123,12 +140,23 @@ export default function HomePage() {
                     height={400}
                     className="w-full h-80 object-cover"
                   />
-                  <Badge className="absolute top-4 left-4 bg-red-500 hover:bg-red-600">
-                    Save ${(product.originalPrice - product.price).toFixed(2)}
-                  </Badge>
+                  {product.isSpecial ? (
+                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold animate-pulse">
+                      {product.specialBadge}
+                    </Badge>
+                  ) : (
+                    <Badge className="absolute top-4 left-4 bg-red-500 hover:bg-red-600">
+                      Save ${(product.originalPrice - product.price).toFixed(2)}
+                    </Badge>
+                  )}
                   <Button variant="ghost" size="icon" className="absolute top-4 right-4 bg-white/80 hover:bg-white">
                     <Heart className="h-5 w-5 text-orange-600" />
                   </Button>
+                  {product.isSpecial && (
+                    <div className="absolute bottom-4 right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-bold">
+                      🌟 SPECIAL DOG 🌟
+                    </div>
+                  )}
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-2 mb-2">

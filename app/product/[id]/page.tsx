@@ -61,6 +61,34 @@ const products = [
       "Perfect for casual wear or dog park visits",
     ],
   },
+  {
+    id: 3,
+    name: "Custom Fenn T-Shirt ⭐",
+    price: 39.99,
+    originalPrice: 49.99,
+    image: "/placeholder.svg?height=600&width=600",
+    rating: 5.0,
+    reviews: 1,
+    colors: [
+      { name: "Golden", value: "golden", hex: "#FFD700" },
+      { name: "Royal Blue", value: "royal-blue", hex: "#4169E1" },
+      { name: "Forest Green", value: "forest-green", hex: "#228B22" },
+    ],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    description:
+      "🌟 This is not just any t-shirt - this is FENN'S t-shirt! 🌟 Created exclusively for the most special, incredible, amazing dog in the universe - FENN! This premium custom tee celebrates everything that makes Fenn absolutely extraordinary. Because Fenn isn't just special... Fenn is LEGENDARY! ✨",
+    features: [
+      "🏆 Custom designed EXCLUSIVELY for Fenn (because Fenn deserves the best!)",
+      "⭐ Premium organic cotton blend - only the finest for our special boy",
+      "🎨 Hand-crafted design featuring Fenn's name in golden letters",
+      "💎 Limited edition - there will only ever be ONE Fenn!",
+      "🌟 Embroidered with love and extra care for the goodest boy",
+      "✨ Comes with a personalized certificate of Fenn's specialness",
+      "🐕 Paw-print authenticity seal (because Fenn is authentic perfection)",
+    ],
+    isSpecial: true,
+    specialMessage: "Made with love for the most special dog in the world! 💖"
+  },
 ]
 
 export default function ProductPage({ params }: { params: { id: string } }) {
@@ -105,35 +133,51 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
+    <div className={`min-h-screen ${product.isSpecial ? 'bg-gradient-to-b from-yellow-50 via-orange-50 to-amber-50' : 'bg-gradient-to-b from-orange-50 to-amber-50'}`}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b-2 border-orange-200">
+      <header className={`shadow-sm border-b-2 ${product.isSpecial ? 'bg-gradient-to-r from-yellow-100 to-orange-100 border-yellow-300' : 'bg-white border-orange-200'}`}>
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center">
-                <span className="text-2xl">🐕</span>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${product.isSpecial ? 'bg-yellow-400' : 'bg-orange-400'}`}>
+                <span className="text-2xl">{product.isSpecial ? '⭐' : '🐕'}</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-orange-800">Pawsome Tees</h1>
-                <p className="text-sm text-orange-600">For the ultimate dog parents</p>
+                <h1 className={`text-2xl font-bold ${product.isSpecial ? 'text-yellow-800' : 'text-orange-800'}`}>
+                  {product.isSpecial ? 'Fenn\'s Special Store' : 'Pawsome Tees'}
+                </h1>
+                <p className={`text-sm ${product.isSpecial ? 'text-yellow-600' : 'text-orange-600'}`}>
+                  {product.isSpecial ? 'For the most special dog in the world!' : 'For the ultimate dog parents'}
+                </p>
               </div>
             </Link>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="icon">
-                <Heart className="h-5 w-5 text-orange-600" />
+                <Heart className={`h-5 w-5 ${product.isSpecial ? 'text-yellow-600' : 'text-orange-600'}`} />
               </Button>
               <CartSidebar />
             </div>
           </div>
+          {product.isSpecial && (
+            <div className="text-center py-2">
+              <p className="text-yellow-800 font-bold animate-pulse">✨ NOW FEATURING: FENN'S EXCLUSIVE COLLECTION ✨</p>
+            </div>
+          )}
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <Link href="/" className="inline-flex items-center text-orange-600 hover:text-orange-800 mb-8">
+        <Link href="/" className={`inline-flex items-center hover:text-orange-800 mb-8 ${product.isSpecial ? 'text-yellow-600' : 'text-orange-600'}`}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Shop
         </Link>
+
+        {product.isSpecial && (
+          <div className="text-center mb-8 bg-gradient-to-r from-yellow-100 to-orange-100 p-6 rounded-lg border-4 border-yellow-400 shadow-lg">
+            <h2 className="text-3xl font-bold text-yellow-800 mb-2">🎉 INTRODUCING FENN'S CUSTOM COLLECTION! 🎉</h2>
+            <p className="text-yellow-700 text-lg">{product.specialMessage}</p>
+          </div>
+        )}
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Images */}
@@ -252,47 +296,72 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {/* Add to Cart */}
             <div className="space-y-3">
               <Button
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 text-lg"
+                className={`w-full font-semibold py-4 text-lg text-white ${
+                  product.isSpecial 
+                    ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 animate-pulse' 
+                    : 'bg-orange-500 hover:bg-orange-600'
+                }`}
                 onClick={handleAddToCart}
                 disabled={!selectedSize}
               >
-                Add to Cart - ${(product.price * quantity).toFixed(2)} 🛒
+                {product.isSpecial ? '⭐ Add Fenn\'s Special Tee to Cart ⭐' : 'Add to Cart'} - ${(product.price * quantity).toFixed(2)} 🛒
               </Button>
-              <Button variant="outline" className="w-full border-orange-300 text-orange-700 hover:bg-orange-50">
+              <Button variant="outline" className={`w-full hover:bg-orange-50 ${product.isSpecial ? 'border-yellow-300 text-yellow-700' : 'border-orange-300 text-orange-700'}`}>
                 <Heart className="h-4 w-4 mr-2" />
                 Add to Wishlist
               </Button>
             </div>
 
             {/* Features */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-orange-200">
-              <h3 className="text-lg font-semibold text-orange-800 mb-4">Why You'll Love This Tee</h3>
+            <div className={`rounded-lg p-6 shadow-sm border ${product.isSpecial ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-300' : 'bg-white border-orange-200'}`}>
+              <h3 className={`text-lg font-semibold mb-4 ${product.isSpecial ? 'text-yellow-800' : 'text-orange-800'}`}>
+                {product.isSpecial ? 'Why Fenn (and you!) Will Love This Special Tee ⭐' : 'Why You\'ll Love This Tee'}
+              </h3>
               <ul className="space-y-2">
                 {product.features.map((feature, index) => (
                   <li key={index} className="flex items-start space-x-2">
-                    <span className="text-orange-500 mt-1">🐾</span>
+                    <span className={`mt-1 ${product.isSpecial ? 'text-yellow-500' : 'text-orange-500'}`}>
+                      {product.isSpecial ? '⭐' : '🐾'}
+                    </span>
                     <span className="text-gray-700">{feature}</span>
                   </li>
                 ))}
               </ul>
+              {product.isSpecial && (
+                <div className="mt-4 p-3 bg-yellow-100 rounded-lg border border-yellow-300">
+                  <p className="text-yellow-800 font-bold text-center">✨ Certificate of Fenn's Awesomeness included! ✨</p>
+                </div>
+              )}
             </div>
 
             {/* Shipping Info */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-white rounded-lg shadow-sm border border-orange-200">
-                <Truck className="h-6 w-6 text-orange-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-orange-800">Free Shipping</p>
-                <p className="text-xs text-gray-600">On all orders</p>
+              <div className={`text-center p-4 rounded-lg shadow-sm border ${product.isSpecial ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-orange-200'}`}>
+                <Truck className={`h-6 w-6 mx-auto mb-2 ${product.isSpecial ? 'text-yellow-500' : 'text-orange-500'}`} />
+                <p className={`text-sm font-medium ${product.isSpecial ? 'text-yellow-800' : 'text-orange-800'}`}>
+                  {product.isSpecial ? 'VIP Shipping' : 'Free Shipping'}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {product.isSpecial ? 'Special delivery for Fenn!' : 'On all orders'}
+                </p>
               </div>
-              <div className="text-center p-4 bg-white rounded-lg shadow-sm border border-orange-200">
-                <Shield className="h-6 w-6 text-orange-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-orange-800">30-Day Guarantee</p>
-                <p className="text-xs text-gray-600">Love it or return it</p>
+              <div className={`text-center p-4 rounded-lg shadow-sm border ${product.isSpecial ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-orange-200'}`}>
+                <Shield className={`h-6 w-6 mx-auto mb-2 ${product.isSpecial ? 'text-yellow-500' : 'text-orange-500'}`} />
+                <p className={`text-sm font-medium ${product.isSpecial ? 'text-yellow-800' : 'text-orange-800'}`}>
+                  {product.isSpecial ? 'Fenn Guarantee' : '30-Day Guarantee'}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {product.isSpecial ? 'Made for the goodest boy' : 'Love it or return it'}
+                </p>
               </div>
-              <div className="text-center p-4 bg-white rounded-lg shadow-sm border border-orange-200">
-                <RotateCcw className="h-6 w-6 text-orange-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-orange-800">Easy Returns</p>
-                <p className="text-xs text-gray-600">Hassle-free process</p>
+              <div className={`text-center p-4 rounded-lg shadow-sm border ${product.isSpecial ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-orange-200'}`}>
+                <RotateCcw className={`h-6 w-6 mx-auto mb-2 ${product.isSpecial ? 'text-yellow-500' : 'text-orange-500'}`} />
+                <p className={`text-sm font-medium ${product.isSpecial ? 'text-yellow-800' : 'text-orange-800'}`}>
+                  {product.isSpecial ? 'No Returns Needed' : 'Easy Returns'}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {product.isSpecial ? 'Perfect for Fenn!' : 'Hassle-free process'}
+                </p>
               </div>
             </div>
           </div>
