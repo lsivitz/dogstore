@@ -78,7 +78,7 @@ export default function HomePage() {
       <section className="py-16 px-4">
         <div className="container mx-auto text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-5xl font-bold text-orange-800 mb-6">Wear Your Love for Your Furry Best Friend! 🐾</h2>
+            <h2 className="text-5xl font-bold text-orange-800 mb-6">HI JEFF AND MOLLY</h2>
             <p className="text-xl text-orange-700 mb-8">
               Show the world you're a proud dog parent with our super soft, premium quality t-shirts. Perfect for dog
               moms and dads who want to celebrate their four-legged family members!
